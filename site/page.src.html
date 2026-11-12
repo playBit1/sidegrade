@@ -1,0 +1,305 @@
+<title>ii Settings Rework</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Readex+Pro:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a left-aligned product sheet. Copy and a spec plate up top, then a screenshot
+   viewer whose view list borrows the app's own rail (thin accent marker on the current item),
+   then what changed, install steps and the package contents. Dark first, like the app. */
+:root {
+  --bg: #121411;
+  --surface: #1a1d19;
+  --surface-2: #232721;
+  --line: #2f342c;
+  --fg: #e3e5dc;
+  --muted: #979d8c;
+  --accent: #c4ceb0;
+  --on-accent: #1b2012;
+  --display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --body: "Readex Pro", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Menlo, monospace;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #f4f5ef; --surface: #ffffff; --surface-2: #e9ecdf; --line: #d3d8c6;
+    --fg: #1c1f17; --muted: #5d6452; --accent: #4f6130; --on-accent: #f6f8ee;
+    color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #f4f5ef; --surface: #ffffff; --surface-2: #e9ecdf; --line: #d3d8c6;
+  --fg: #1c1f17; --muted: #5d6452; --accent: #4f6130; --on-accent: #f6f8ee;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--body);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.6;
+}
+.wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-block: 28px 72px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+h1, h2, h3 { font-family: var(--display); font-weight: 500; line-height: 1.15; margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(2.2rem, 6vw, 3.6rem); letter-spacing: -0.02em; }
+h2 { font-size: 1.6rem; letter-spacing: -0.01em; }
+h3 { font-size: 1.05rem; }
+p { margin: 0; }
+a { color: var(--accent); }
+code, kbd { font-family: var(--mono); font-size: 0.86em; }
+kbd { border: 1px solid var(--line); border-radius: 6px; padding: 1px 6px; background: var(--surface); }
+.label { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; align-items: baseline; }
+.top .name { font-family: var(--display); font-weight: 600; font-size: 1.05rem; }
+
+.hero { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 40px; align-items: end; }
+.hero-copy { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+.hero-copy p { max-width: 58ch; color: var(--muted); font-size: 1.05rem; }
+.hero-copy p strong { color: var(--fg); font-weight: 400; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.btn {
+  font: 500 0.95rem var(--display);
+  border: 0; border-radius: 999px; padding: 12px 22px; cursor: pointer;
+  background: var(--accent); color: var(--on-accent);
+}
+.btn:hover { filter: brightness(1.08); }
+.btn.quiet { background: transparent; color: var(--fg); border: 1px solid var(--line); text-decoration: none; }
+.status { font-size: 0.85rem; color: var(--muted); min-height: 1.4em; }
+
+.plate { border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; }
+.plate div { padding: 14px 0; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 2px; }
+.plate div:nth-child(odd) { padding-right: 16px; }
+.plate .num { font-family: var(--display); font-size: 1.7rem; font-weight: 500; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.plate .num small { font-size: 0.55em; color: var(--muted); font-weight: 400; margin-left: 3px; }
+
+.viewer { display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 24px; align-items: start; }
+.views { display: flex; flex-direction: column; gap: 2px; }
+.views button {
+  all: unset; box-sizing: border-box; cursor: pointer; position: relative;
+  padding: 9px 12px 9px 16px; border-radius: 10px; color: var(--muted); font-size: 0.92rem;
+}
+.views button:hover { background: var(--surface); }
+.views button:focus-visible { outline: 2px solid var(--accent); }
+.views button::before {
+  content: ""; position: absolute; left: 4px; top: 50%; width: 3px; height: 0; border-radius: 2px;
+  background: var(--accent); transform: translateY(-50%); transition: height 0.15s;
+}
+.views button[aria-selected="true"] { color: var(--fg); font-weight: 400; }
+.views button[aria-selected="true"]::before { height: 18px; }
+.shot { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.shot img { display: block; width: 100%; height: auto; border-radius: 18px; border: 1px solid var(--line); background: var(--surface); }
+.shot p { color: var(--muted); font-size: 0.92rem; max-width: 70ch; }
+
+.section { display: flex; flex-direction: column; gap: 24px; }
+.changes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; }
+.changes div { padding: 18px 0; border-top: 1px solid var(--line); display: flex; flex-direction: column; gap: 6px; }
+.changes p { color: var(--muted); font-size: 0.95rem; }
+
+.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 20px; counter-reset: step; }
+.steps li { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 14px; counter-increment: step; }
+.steps li::before {
+  content: counter(step); font: 500 0.9rem var(--mono); width: 34px; height: 34px; border-radius: 50%;
+  border: 1px solid var(--line); display: grid; place-items: center; color: var(--muted);
+}
+.steps .body { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.steps .body p { color: var(--muted); max-width: 65ch; }
+.cmd { display: flex; gap: 8px; align-items: stretch; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+.cmd pre { margin: 0; padding: 12px 14px; overflow-x: auto; flex: 1; min-width: 0; font-family: var(--mono); font-size: 0.86rem; line-height: 1.5; }
+.cmd button { all: unset; cursor: pointer; padding: 0 14px; font: 500 0.8rem var(--display); color: var(--muted); border-left: 1px solid var(--line); }
+.cmd button:hover { color: var(--fg); }
+.cmd button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 0 12px 12px 0; }
+.notes { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) minmax(0, 1fr); gap: 24px; }
+.notes > div { display: flex; flex-direction: column; gap: 6px; }
+.notes p { color: var(--muted); font-size: 0.92rem; }
+
+.table { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+th, td { text-align: left; padding: 10px 12px 10px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font: 400 0.72rem var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; padding-right: 0; }
+td:first-child { font-family: var(--mono); font-size: 0.84rem; }
+td.what { color: var(--muted); }
+tfoot td { font-weight: 500; border-bottom: 0; font-family: var(--body); }
+tfoot td:first-child { font-family: var(--body); font-size: 0.92rem; }
+
+footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--line); padding-top: 20px; max-width: 80ch; }
+
+@media (max-width: 760px) {
+  .wrap { gap: 48px; }
+  .hero, .viewer { grid-template-columns: minmax(0, 1fr); }
+  .views { flex-direction: row; flex-wrap: wrap; }
+  .views button { padding: 7px 12px 7px 16px; }
+  .changes, .notes { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { .views button::before { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <span class="name">ii Settings Rework</span>
+    <span class="label">Unofficial mod for end-4's dots-hyprland · Quickshell "ii"</span>
+  </header>
+
+  <section class="hero">
+    <div class="hero-copy">
+      <h1>Every option in the settings app. Findable.</h1>
+      <p>The stock illogical-impulse settings app leaves <strong>114 of its 284 options</strong> to be edited by hand in <code>config.json</code>. This rework gives each of them a control, adds search and section navigation, and tidies the layout without changing how the app feels.</p>
+      <div class="actions">
+        <button class="btn" id="download" type="button">Download · {{ZIP_KB}} KB</button>
+        <a class="btn quiet" href="#install">How to install</a>
+      </div>
+      <p class="status" id="download-status" role="status"></p>
+    </div>
+    <div class="plate" aria-label="Package size">
+      <div><span class="num">{{ZIP_KB}}<small>KB</small></span><span class="label">Download (zip)</span></div>
+      <div><span class="num">{{RAW_KB}}<small>KB</small></span><span class="label">Installed on disk</span></div>
+      <div><span class="num">{{FILE_COUNT}}</span><span class="label">Files</span></div>
+      <div><span class="num">0</span><span class="label">New dependencies</span></div>
+    </div>
+  </section>
+
+  <section class="viewer" aria-label="Screenshots">
+    <div class="views" role="tablist" aria-label="Screens">
+      <button role="tab" id="tab-bar" aria-selected="true" data-img="shots/bar.png" data-cap="The Bar page. Sections sit on faint cards, the rail lists the page's sections and marks the one in view, and units sit beside the number boxes.">Sections and cards</button>
+      <button role="tab" id="tab-search" aria-selected="false" data-img="shots/search.png" data-cap="Typing in the search field replaces the page list with matches from every page, each with its page and section. Ctrl+F focuses it.">Search</button>
+      <button role="tab" id="tab-jump" aria-selected="false" data-img="shots/jump.png" data-cap="Picking a result opens the page, scrolls to the option and highlights it for a moment. Opacity options are sliders.">Jump to an option</button>
+      <button role="tab" id="tab-rows" aria-selected="false" data-img="shots/rows.png" data-cap="Default apps, one of the newly exposed groups. Short values use a compact row with the label on the left.">Newly exposed options</button>
+      <button role="tab" id="tab-quick" aria-selected="false" data-img="shots/quick.png" data-cap="The Quick page keeps its wallpaper and color controls. The Waffle tab only appears while that panel family is active.">Quick page</button>
+    </div>
+    <div class="shot">
+      <img id="shot-img" src="shots/bar.png" width="1100" height="750" alt="The reworked settings app showing the Bar page">
+      <p id="shot-cap">The Bar page. Sections sit on faint cards, the rail lists the page's sections and marks the one in view, and units sit beside the number boxes.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>What changes</h2>
+    <div class="changes">
+      <div><h3>All 284 options have a control</h3><p>Default apps, night light schedule, bar resources, tray filters, scrolling, pomodoro timings, AI models and the rest. Lists are edited as text, and the AI model list as JSON that only saves while valid.</p></div>
+      <div><h3>Search across every page</h3><p>370 labels are indexed. Results show where each option lives and take you to the exact row.</p></div>
+      <div><h3>Sections in the navigation rail</h3><p>The selected tab lists its sections. Click one to scroll there; the marker follows as you scroll.</p></div>
+      <div><h3>Tabs ordered by use</h3><p>Quick, Bar, Interface, Background, General, Services, Advanced, then Misc and About. Options that nothing in the shell reads are moved to Misc.</p></div>
+      <div><h3>Calmer rows</h3><p>Sections are grouped on cards, per-row icons are gone, units moved out of the labels, and short text values no longer take a full-width box.</p></div>
+      <div><h3>Update check and update button</h3><p>About reports how many commits your dotfiles are behind and how many system packages are pending. From there, one button opens a terminal running end-4's updater and re-applies this mod afterwards.</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="install">
+    <h2>Install</h2>
+    <ol class="steps">
+      <li><div class="body">
+        <h3>Download the zip</h3>
+        <p>Use the Download button at the top of this page. It is {{ZIP_KB}} KB and contains the {{FILE_COUNT}} files plus a small install script you can read first.</p>
+      </div></li>
+      <li><div class="body">
+        <h3>Unzip and run the installer</h3>
+        <div class="cmd"><pre id="cmd-install">cd ~/Downloads
+unzip ii-settings-rework.zip
+bash ii-settings-rework/install.sh</pre><button type="button" data-copy="cmd-install">Copy</button></div>
+        <p>It backs up every file it replaces to <code>~/.local/share/ii-settings-rework/backup</code>, then copies the new ones into <code>~/.config/quickshell/ii</code>. No root, no packages.</p>
+      </div></li>
+      <li><div class="body">
+        <h3>Reopen Settings</h3>
+        <p>Close the settings window if it is open and launch it again. The shell itself does not need a restart.</p>
+      </div></li>
+    </ol>
+    <div class="notes">
+      <div><h3>Built against</h3><p>dots-hyprland commit <code>{{COMMIT}}</code> (15 Aug 2026). If your settings files differ from that version the installer stops and tells you which; <code>--force</code> installs anyway.</p></div>
+      <div><h3>Uninstall</h3><div class="cmd"><pre id="cmd-uninstall">bash ii-settings-rework/install.sh --uninstall</pre><button type="button" data-copy="cmd-uninstall">Copy</button></div><p>Restores the backup and removes the added files.</p></div>
+      <div><h3>After a dots update</h3><p>Updating the dotfiles replaces these files with stock ones. The Update dotfiles button in About re-applies the rework for you; after a manual update, run the installer again.</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>What is in the download</h2>
+    <div class="table">
+      <table>
+        <thead><tr><th>Files</th><th>What they are</th><th class="n">Count</th><th class="n">Size</th></tr></thead>
+        <tbody>
+{{FILE_ROWS}}
+        </tbody>
+        <tfoot><tr><td>Total installed</td><td></td><td class="n">{{FILE_COUNT}}</td><td class="n">{{RAW_KB}} KB</td></tr></tfoot>
+      </table>
+    </div>
+  </section>
+
+  <footer>An independent modification of the settings app from end-4's dots-hyprland (illogical-impulse). Not affiliated with or endorsed by that project. It also corrects one stock bug: the "force notifications to one monitor" switch wrote to a config key the shell did not define.</footer>
+</div>
+
+<script type="application/octet-stream" id="pkg">{{ZIP_B64}}</script>
+<script>
+(function () {
+  // Screenshot viewer
+  var tabs = document.querySelectorAll('.views button');
+  var img = document.getElementById('shot-img');
+  var cap = document.getElementById('shot-cap');
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      tabs.forEach(function (t) { t.setAttribute('aria-selected', t === tab ? 'true' : 'false'); });
+      img.src = tab.dataset.img;
+      img.alt = 'The reworked settings app: ' + tab.textContent;
+      cap.textContent = tab.dataset.cap;
+    });
+  });
+
+  // Copy buttons
+  document.querySelectorAll('[data-copy]').forEach(function (button) {
+    button.addEventListener('click', function () {
+      var pre = document.getElementById(button.dataset.copy);
+      var done = function () { button.textContent = 'Copied'; setTimeout(function () { button.textContent = 'Copy'; }, 1500); };
+      var select = function () {
+        var range = document.createRange(); range.selectNodeContents(pre);
+        var sel = getSelection(); sel.removeAllRanges(); sel.addRange(range);
+        button.textContent = 'Selected';
+      };
+      try { navigator.clipboard.writeText(pre.textContent).then(done, select); } catch (e) { select(); }
+    });
+  });
+
+  // Download: the zip is embedded in this page
+  var status = document.getElementById('download-status');
+  function zipBytes() {
+    var bin = atob(document.getElementById('pkg').textContent.trim());
+    var bytes = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return bytes;
+  }
+  document.getElementById('download').addEventListener('click', async function () {
+    var filename = 'ii-settings-rework.zip';
+    var data = zipBytes();
+    var downloads = null;
+    try { if (window.claude && window.claude.use) downloads = await window.claude.use('downloads'); } catch (e) { downloads = null; }
+    if (downloads) {
+      try {
+        await downloads.save({ filename: filename, data: data });
+        status.textContent = 'Saved. Next: unzip it and run install.sh (steps below).';
+      } catch (e) {
+        status.textContent = e && e.code === 'declined' ? 'Download cancelled.' : 'This view cannot save files. Open the page in a browser and try again.';
+      }
+      return;
+    }
+    try {
+      var url = URL.createObjectURL(new Blob([data], { type: 'application/zip' }));
+      var link = document.createElement('a');
+      link.href = url; link.download = filename;
+      document.body.appendChild(link); link.click(); link.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 4000);
+      status.textContent = 'Download started. Next: unzip it and run install.sh (steps below).';
+    } catch (e) {
+      status.textContent = 'This view cannot save files. Open the page in a browser and try again.';
+    }
+  });
+})();
+</script>

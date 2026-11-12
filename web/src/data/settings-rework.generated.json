@@ -1,0 +1,44 @@
+{
+  "zipBytes": 45277,
+  "rawBytes": 237757,
+  "fileCount": 22,
+  "commit": "42d0aae1",
+  "groups": [
+    {
+      "files": "settings.qml",
+      "what": "The window: tabs, navigation rail, search",
+      "count": 1,
+      "bytes": 33059
+    },
+    {
+      "files": "modules/settings/*Config.qml, About.qml",
+      "what": "The ten pages",
+      "count": 10,
+      "bytes": 132038
+    },
+    {
+      "files": "modules/settings/Opt*.qml, SettingsSection.qml",
+      "what": "Row and section components",
+      "count": 8,
+      "bytes": 11065
+    },
+    {
+      "files": "modules/settings/SearchIndex.qml",
+      "what": "Labels the search field looks through",
+      "count": 1,
+      "bytes": 58877
+    },
+    {
+      "files": "modules/ii/notificationPopup/NotificationPopup.qml",
+      "what": "One-line fix for the notification monitor option",
+      "count": 1,
+      "bytes": 1330
+    },
+    {
+      "files": "scripts/settings-rework/update-dots.sh",
+      "what": "Run by the Update dotfiles button",
+      "count": 1,
+      "bytes": 1388
+    }
+  ]
+}
