@@ -1,8 +1,9 @@
 {
-  "zipBytes": 45277,
+  "zipBytes": 58345,
   "rawBytes": 237757,
   "fileCount": 22,
-  "commit": "42d0aae1",
+  "commit": "cb1c428b",
+  "commitDate": "8 Nov 2026",
   "groups": [
     {
       "files": "settings.qml",

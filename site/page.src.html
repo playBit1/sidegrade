@@ -216,7 +216,7 @@ bash ii-settings-rework/install.sh</pre><button type="button" data-copy="cmd-ins
       </div></li>
     </ol>
     <div class="notes">
-      <div><h3>Built against</h3><p>dots-hyprland commit <code>{{COMMIT}}</code> (15 Aug 2026). If your settings files differ from that version the installer stops and tells you which; <code>--force</code> installs anyway.</p></div>
+      <div><h3>Built against</h3><p>dots-hyprland commit <code>{{COMMIT}}</code> ({{COMMIT_DATE}}). If your settings files differ from that version the installer stops and tells you which; <code>--force</code> installs anyway.</p></div>
       <div><h3>Uninstall</h3><div class="cmd"><pre id="cmd-uninstall">bash ii-settings-rework/install.sh --uninstall</pre><button type="button" data-copy="cmd-uninstall">Copy</button></div><p>Restores the backup and removes the added files.</p></div>
       <div><h3>After a dots update</h3><p>Updating the dotfiles replaces these files with stock ones. The Update dotfiles button in About re-applies the rework for you; after a manual update, run the installer again.</p></div>
     </div>
@@ -235,7 +235,7 @@ bash ii-settings-rework/install.sh</pre><button type="button" data-copy="cmd-ins
     </div>
   </section>
 
-  <footer>An independent modification of the settings app from end-4's dots-hyprland (illogical-impulse). Not affiliated with or endorsed by that project. It also corrects one stock bug: the "force notifications to one monitor" switch wrote to a config key the shell did not define.</footer>
+  <footer>An independent modification of the settings app from end-4's dots-hyprland (illogical-impulse). Not affiliated with or endorsed by that project. It also corrects one stock bug: the "force notifications to one monitor" switch wrote to a config key the shell did not define. Licensed under the <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPL v3</a>, the same as dots-hyprland; the download includes the licence and a notice of the changes. Source: <a href="{{REPO}}">{{REPO}}</a>.</footer>
 </div>
 
 <script type="application/octet-stream" id="pkg">{{ZIP_B64}}</script>

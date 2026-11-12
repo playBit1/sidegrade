@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Build the downloadable package and the product page.
 
-  site/ii-settings-rework.zip   install.sh + files/ (from patched/) + stock.sha256
+  site/ii-settings-rework.zip   install.sh + LICENSE + NOTICE + files/ (from patched/) + stock.sha256
+  NOTICE                        the GPL modification notice, naming the dots-hyprland commit
   site/page.html                page body in the form the Artifact tool publishes
   site/index.html               the same page as a standalone document, for any static host
   web/public/..., web/src/data/settings-rework.generated.json   zip, screenshots and sizes for the React storefront
@@ -22,6 +23,39 @@ NAME = "ii-settings-rework"
 files = sorted(p for p in PATCHED.rglob("*") if p.is_file())
 rel = lambda p: p.relative_to(PATCHED).as_posix()
 
+# --- the dots-hyprland version the mod is built against, and the GPL notice that names it
+def dots_git(*args):
+    return subprocess.run(["git", "-C", str(Path.home() / ".cache/dots-hyprland"), *args],
+                          capture_output=True, text=True).stdout.strip()
+
+commit = dots_git("rev-parse", "--short", "HEAD") or "unknown"
+commit_date = dots_git("log", "-1", "--format=%ad", "--date=format:%-d %b %Y") or "unknown"
+REPO = "https://github.com/playBit1/sidegrade"
+notice = f"""ii Settings Rework
+{REPO}
+
+This is a modified version of parts of end-4's dots-hyprland (illogical-impulse),
+https://github.com/end-4/dots-hyprland, which is licensed under the GNU General
+Public License, version 3.
+
+The files under files/ (patched/ in the repository) were modified from, or added
+to, the Quickshell "ii" config of dots-hyprland as of commit {commit} ({commit_date}).
+Modifications by playBit1, November 2026. The unmodified originals are kept in
+backup-original/ in the repository.
+
+Original work: copyright (C) end-4 and the dots-hyprland contributors.
+Modifications: copyright (C) 2026 playBit1.
+
+This program is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License, version 3, as published by the Free
+Software Foundation. It is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE. See the LICENSE file for the full text.
+
+Not affiliated with or endorsed by the dots-hyprland project.
+"""
+(HERE / "NOTICE").write_text(notice)
+
 # --- zip (fixed timestamps so the same input gives the same file)
 buf = io.BytesIO()
 with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as z:
@@ -31,6 +65,8 @@ with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as z:
         info.external_attr = mode << 16
         z.writestr(info, data)
     add("install.sh", (HERE / "installer" / "install.sh").read_bytes(), 0o755)
+    add("LICENSE", (HERE / "LICENSE").read_bytes())
+    add("NOTICE", notice)
     add("stock.sha256", "".join(
         f"{hashlib.sha256(p.read_bytes()).hexdigest()}  ./{p.relative_to(STOCK).as_posix()}\n"
         for p in sorted(STOCK.rglob("*")) if p.is_file()))
@@ -63,13 +99,10 @@ for label, what, match in GROUPS:
                 f'<td class="n">{len(group)}</td><td class="n">{kb(sum(p.stat().st_size for p in group))} KB</td></tr>')
 assert seen == set(files), [rel(p) for p in set(files) - seen]
 
-commit = subprocess.run(["git", "-C", str(Path.home() / ".cache/dots-hyprland"), "rev-parse", "--short", "HEAD"],
-                        capture_output=True, text=True).stdout.strip() or "unknown"
-
 page = (SITE / "page.src.html").read_text()
 for key, value in {
     "{{ZIP_KB}}": kb(len(zip_bytes)), "{{RAW_KB}}": kb(raw), "{{FILE_COUNT}}": str(len(files)),
-    "{{FILE_ROWS}}": "\n".join(rows), "{{COMMIT}}": commit,
+    "{{FILE_ROWS}}": "\n".join(rows), "{{COMMIT}}": commit, "{{COMMIT_DATE}}": commit_date, "{{REPO}}": REPO,
     "{{ZIP_B64}}": base64.b64encode(zip_bytes).decode(),
 }.items():
     page = page.replace(key, value)
@@ -90,7 +123,7 @@ if WEB.is_dir():
     for shot in (SITE / "shots").glob("*.png"):
         shutil.copy(shot, WEB / "public" / "shots" / shot.name)
     (WEB / "src" / "data" / "settings-rework.generated.json").write_text(json.dumps(
-        {"zipBytes": len(zip_bytes), "rawBytes": raw, "fileCount": len(files), "commit": commit, "groups": groups},
+        {"zipBytes": len(zip_bytes), "rawBytes": raw, "fileCount": len(files), "commit": commit, "commitDate": commit_date, "groups": groups},
         indent=2) + "\n")
 
 print(f"{len(files)} files, {raw} bytes installed, zip {len(zip_bytes)} bytes, page {len(page)} bytes")

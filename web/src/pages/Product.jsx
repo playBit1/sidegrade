@@ -111,7 +111,7 @@ export default function Product() {
           <div>
             <h3>Built against</h3>
             <p>
-              dots-hyprland commit <code>{product.commit}</code> ({product.builtAgainstDate}). If your settings files
+              dots-hyprland commit <code>{product.commit}</code> ({product.commitDate}). If your settings files
               differ from that version the installer stops and tells you which; <code>--force</code> installs anyway.
             </p>
           </div>

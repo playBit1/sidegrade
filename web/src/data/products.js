@@ -23,7 +23,6 @@ export const products = [
     folder: "ii-settings-rework",
     backupPath: "~/.local/share/ii-settings-rework/backup",
     installPath: "~/.config/quickshell/ii",
-    builtAgainstDate: "15 Aug 2026",
     ...settingsRework,
     cover: asset("shots/bar.png"),
     screenshots: [

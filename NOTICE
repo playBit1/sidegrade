@@ -1,0 +1,22 @@
+ii Settings Rework
+https://github.com/playBit1/sidegrade
+
+This is a modified version of parts of end-4's dots-hyprland (illogical-impulse),
+https://github.com/end-4/dots-hyprland, which is licensed under the GNU General
+Public License, version 3.
+
+The files under files/ (patched/ in the repository) were modified from, or added
+to, the Quickshell "ii" config of dots-hyprland as of commit cb1c428b (8 Nov 2026).
+Modifications by playBit1, November 2026. The unmodified originals are kept in
+backup-original/ in the repository.
+
+Original work: copyright (C) end-4 and the dots-hyprland contributors.
+Modifications: copyright (C) 2026 playBit1.
+
+This program is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License, version 3, as published by the Free
+Software Foundation. It is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE. See the LICENSE file for the full text.
+
+Not affiliated with or endorsed by the dots-hyprland project.
