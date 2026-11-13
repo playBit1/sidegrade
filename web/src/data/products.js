@@ -175,7 +175,7 @@ export const products = [
       },
       {
         title: "More than one monitor",
-        text: "The primary monitor gets the login controls; the others show the wallpaper and clock. An install option rotates a portrait monitor that SDDM would otherwise show sideways.",
+        text: "The primary monitor gets the full login controls; the others show the wallpaper, the clock and a password field of their own, so what you type shows on whichever monitor the pointer is on. An install option rotates a portrait monitor that SDDM would otherwise show sideways.",
       },
       {
         title: "Session picker and caps lock",

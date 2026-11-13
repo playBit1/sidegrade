@@ -38,7 +38,7 @@ An SDDM theme that makes the login screen match the illogical-impulse lockscreen
 
 - **Same layout as the lockscreen:** the analog clock, quote and date, and three pill toolbars for user, password, session and power.
 - **Follows your desktop:** a user service re-syncs the blurred wallpaper and colours whenever the shell regenerates them.
-- **More than one monitor:** login controls on the primary monitor, wallpaper and clock on the others, and an install option to rotate a portrait monitor.
+- **More than one monitor:** full login controls on the primary monitor; wallpaper, clock and their own password field on the others (typing shows on whichever monitor the pointer is on), and an install option to rotate a portrait monitor.
 - **Authentication is unchanged:** SDDM still checks the password. The theme code is root-owned; only colours, text and one image are writable by your user.
 
 ### Install

@@ -1,6 +1,7 @@
 // ii Login - an SDDM theme that matches the illogical-impulse (end-4) Quickshell lockscreen.
-// SDDM loads this file once per monitor. The primary monitor gets the login controls;
-// the others show only the wallpaper and clock.
+// SDDM loads this file once per monitor. The primary monitor gets all the login controls;
+// the others get the wallpaper, the clock and a password field of their own, so typing is
+// visible on whichever monitor the pointer is on.
 import QtQuick
 
 Item {
@@ -143,9 +144,17 @@ Item {
         color: Qt.rgba(col.background.r, col.background.g, col.background.b, 0.3)
     }
 
-    // Clicking anywhere closes menus and returns focus to the password field
+    // Clicking anywhere closes menus and returns focus to the password field.
+    // Each monitor is its own window: when the pointer comes onto this one, take the
+    // keyboard so what is typed lands in (and shows in) this monitor's password field.
     MouseArea {
         anchors.fill: parent
+        hoverEnabled: true
+        onEntered: {
+            if (root.Window.window)
+                root.Window.window.requestActivate();
+            password.forceActiveFocus();
+        }
         onPressed: {
             root.sessionMenuOpen = false;
             root.userMenuOpen = false;
@@ -191,10 +200,9 @@ Item {
         }
     }
 
-    // --- Login controls (primary monitor only)
+    // --- Login controls: the password field on every monitor, the rest on the primary only
     Item {
         id: controls
-        visible: root.isPrimary
         anchors.fill: parent
         opacity: 0
         scale: 0.9
@@ -299,6 +307,7 @@ Item {
         // Left: user, keyboard layout, caps lock
         Pill {
             id: leftPill
+            visible: root.isPrimary
             color: col.surfaceContainer
             anchors.right: mainPill.left
             anchors.rightMargin: 10
@@ -332,6 +341,7 @@ Item {
         // Right: session, sleep, power off, restart
         Pill {
             id: rightPill
+            visible: root.isPrimary
             color: col.surfaceContainer
             anchors.left: mainPill.right
             anchors.leftMargin: 10

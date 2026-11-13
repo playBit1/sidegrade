@@ -1,6 +1,6 @@
 {
-  "zipBytes": 27422,
-  "rawBytes": 43207,
+  "zipBytes": 27593,
+  "rawBytes": 43752,
   "fileCount": 10,
   "commit": "cb1c428b",
   "commitDate": "8 Nov 2026",
@@ -9,7 +9,7 @@
       "files": "theme/Main.qml",
       "what": "The login screen: wallpaper, toolbars, menus, login",
       "count": 1,
-      "bytes": 20564
+      "bytes": 21109
     },
     {
       "files": "theme/CookieClock.qml",
