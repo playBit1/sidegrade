@@ -113,10 +113,10 @@ for key, value in {
     "<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body>\n"
     + page + "</body></html>\n")
 # --- React storefront (web/): the same zip, screenshots and figures
+import json
+import shutil
 WEB = HERE / "web"
 if WEB.is_dir():
-    import json
-    import shutil
     (WEB / "public" / "downloads").mkdir(parents=True, exist_ok=True)
     (WEB / "public" / "shots").mkdir(parents=True, exist_ok=True)
     shutil.copy(SITE / f"{NAME}.zip", WEB / "public" / "downloads" / f"{NAME}.zip")
@@ -125,5 +125,68 @@ if WEB.is_dir():
     (WEB / "src" / "data" / "settings-rework.generated.json").write_text(json.dumps(
         {"zipBytes": len(zip_bytes), "rawBytes": raw, "fileCount": len(files), "commit": commit, "commitDate": commit_date, "groups": groups},
         indent=2) + "\n")
+
+
+# --- ii Login (sddm-theme/): its own zip, screenshots and figures for the storefront
+LOGIN = HERE / "sddm-theme"
+LOGIN_NAME = "ii-login"
+login_notice = f"""ii Login - an SDDM theme matching the illogical-impulse lockscreen
+{REPO}
+
+The clock and toolbars in this theme are a port of the lockscreen and clock widgets of
+end-4's dots-hyprland (illogical-impulse), https://github.com/end-4/dots-hyprland, which
+is licensed under the GNU General Public License, version 3. They were rewritten for SDDM
+from dots-hyprland as of commit {commit} ({commit_date}) by playBit1, November 2026.
+
+Original work: copyright (C) end-4 and the dots-hyprland contributors.
+This theme: copyright (C) 2026 playBit1.
+
+This program is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License, version 3, as published by the Free
+Software Foundation. It is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE. See the LICENSE file for the full text.
+
+Not affiliated with or endorsed by the dots-hyprland or SDDM projects.
+"""
+(LOGIN / "NOTICE").write_text(login_notice)
+login_files = [LOGIN / "install.sh", LOGIN / "sync.sh"] + sorted(p for p in (LOGIN / "theme").iterdir() if p.is_file())
+buf = io.BytesIO()
+with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED, compresslevel=9) as z:
+    def add_login(name, data, mode=0o644):
+        info = zipfile.ZipInfo(f"{LOGIN_NAME}/{name}", date_time=(2026, 11, 14, 0, 0, 0))
+        info.compress_type = zipfile.ZIP_DEFLATED
+        info.external_attr = mode << 16
+        z.writestr(info, data)
+    add_login("LICENSE", (HERE / "LICENSE").read_bytes())
+    add_login("NOTICE", login_notice)
+    for p in login_files:
+        add_login(p.relative_to(LOGIN).as_posix(), p.read_bytes(), 0o755 if p.suffix == ".sh" else 0o644)
+login_zip = buf.getvalue()
+LOGIN_GROUPS = [
+    ("theme/Main.qml", "The login screen: wallpaper, toolbars, menus, login", lambda p: p.name == "Main.qml"),
+    ("theme/CookieClock.qml", "The analog clock with date bubbles", lambda p: p.name == "CookieClock.qml"),
+    ("theme/Pill.qml, Icon.qml, IconButton.qml, ShapeDot.qml", "Toolbar, icon and password-character components",
+     lambda p: p.name in ("Pill.qml", "Icon.qml", "IconButton.qml", "ShapeDot.qml")),
+    ("theme/metadata.desktop, theme.conf", "Theme description and default colours",
+     lambda p: p.name in ("metadata.desktop", "theme.conf")),
+    ("sync.sh", "Copies your wallpaper and colours for the theme to read", lambda p: p.name == "sync.sh"),
+    ("install.sh", "Installer and uninstaller", lambda p: p.name == "install.sh"),
+]
+login_seen, login_groups = set(), []
+for label, what, match in LOGIN_GROUPS:
+    group = [p for p in login_files if match(p)]
+    login_seen.update(group)
+    login_groups.append({"files": label, "what": what, "count": len(group), "bytes": sum(p.stat().st_size for p in group)})
+assert login_seen == set(login_files), [p.name for p in set(login_files) - login_seen]
+if WEB.is_dir():
+    (WEB / "public" / "downloads" / f"{LOGIN_NAME}.zip").write_bytes(login_zip)
+    for shot in (LOGIN / "shots").glob("*.png"):
+        shutil.copy(shot, WEB / "public" / "shots" / shot.name)
+    (WEB / "src" / "data" / "login.generated.json").write_text(json.dumps(
+        {"zipBytes": len(login_zip), "rawBytes": sum(p.stat().st_size for p in login_files),
+         "fileCount": len(login_files), "commit": commit, "commitDate": commit_date, "groups": login_groups},
+        indent=2) + "\n")
+print(f"ii-login: {len(login_files)} files, zip {len(login_zip)} bytes")
 
 print(f"{len(files)} files, {raw} bytes installed, zip {len(zip_bytes)} bytes, page {len(page)} bytes")

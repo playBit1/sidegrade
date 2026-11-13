@@ -4,6 +4,10 @@ import ScreenshotViewer from "../components/ScreenshotViewer.jsx";
 import { findProduct, kb } from "../data/products.js";
 import NotFound from "./NotFound.jsx";
 
+// Text from products.js, with `backticks` turned into <code>
+const rich = (text) =>
+  text.split("`").map((part, index) => (index % 2 ? <code key={index}>{part}</code> : part));
+
 export default function Product() {
   const { slug } = useParams();
   const product = findProduct(slug);
@@ -56,8 +60,8 @@ export default function Product() {
             <span className="label">Files</span>
           </div>
           <div>
-            <span className="num">0</span>
-            <span className="label">New dependencies</span>
+            <span className="num">{product.fourthFact.value}</span>
+            <span className="label">{product.fourthFact.label}</span>
           </div>
         </div>
       </section>
@@ -86,47 +90,28 @@ export default function Product() {
                 <a href={product.download} download={product.downloadName}>
                   {product.downloadName}
                 </a>{" "}
-                is {zipKb} KB and contains the {product.fileCount} files plus a small install script you can read first.
+                is {zipKb} KB. The install script inside is plain bash you can read first.
               </p>
             </div>
           </li>
-          <li>
-            <div className="body">
-              <h3>Unzip and run the installer</h3>
-              <CopyCommand>{`cd ~/Downloads\nunzip ${product.downloadName}\nbash ${product.folder}/install.sh`}</CopyCommand>
-              <p>
-                It backs up every file it replaces to <code>{product.backupPath}</code>, then copies the new ones into{" "}
-                <code>{product.installPath}</code>. No root, no packages.
-              </p>
-            </div>
-          </li>
-          <li>
-            <div className="body">
-              <h3>Reopen Settings</h3>
-              <p>Close the settings window if it is open and launch it again. The shell itself does not need a restart.</p>
-            </div>
-          </li>
+          {product.installSteps.map((step) => (
+            <li key={step.title}>
+              <div className="body">
+                <h3>{step.title}</h3>
+                {step.command && <CopyCommand>{step.command}</CopyCommand>}
+                <p>{rich(step.text)}</p>
+              </div>
+            </li>
+          ))}
         </ol>
         <div className="notes">
-          <div>
-            <h3>Built against</h3>
-            <p>
-              dots-hyprland commit <code>{product.commit}</code> ({product.commitDate}). If your settings files
-              differ from that version the installer stops and tells you which; <code>--force</code> installs anyway.
-            </p>
-          </div>
-          <div>
-            <h3>Uninstall</h3>
-            <CopyCommand>{`bash ${product.folder}/install.sh --uninstall`}</CopyCommand>
-            <p>Restores the backup and removes the added files.</p>
-          </div>
-          <div>
-            <h3>After a dots update</h3>
-            <p>
-              Updating the dotfiles replaces these files with stock ones. The Update dotfiles button in About re-applies
-              the mod for you; after a manual update, run the installer again.
-            </p>
-          </div>
+          {product.notes.map((note) => (
+            <div key={note.title}>
+              <h3>{note.title}</h3>
+              {note.command && <CopyCommand>{note.command}</CopyCommand>}
+              <p>{rich(note.text)}</p>
+            </div>
+          ))}
         </div>
       </section>
 

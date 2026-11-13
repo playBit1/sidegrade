@@ -32,6 +32,31 @@ The installer backs up every file it replaces to `~/.local/share/ii-settings-rew
 bash ii-settings-rework/install.sh --uninstall   # put the original files back
 ```
 
+## ii Login
+
+An SDDM theme that makes the login screen match the illogical-impulse lockscreen.
+
+- **Same layout as the lockscreen:** the analog clock, quote and date, and three pill toolbars for user, password, session and power.
+- **Follows your desktop:** a user service re-syncs the blurred wallpaper and colours whenever the shell regenerates them.
+- **More than one monitor:** login controls on the primary monitor, wallpaper and clock on the others, and an install option to rotate a portrait monitor.
+- **Authentication is unchanged:** SDDM still checks the password. The theme code is root-owned; only colours, text and one image are writable by your user.
+
+### Install
+
+Download `ii-login.zip` from the site (or take it from `web/public/downloads/`), then run the installer as yourself. It asks for your sudo password once.
+
+```sh
+unzip ii-login.zip
+bash ii-login/install.sh                 # add --rotate left|right for a portrait HDMI monitor
+bash ii-login/install.sh --uninstall     # remove it
+```
+
+If the login screen ever misbehaves, press Ctrl+Alt+F3, log in, and run:
+
+```sh
+sudo rm /etc/sddm.conf.d/10-ii-login.conf && sudo systemctl restart sddm
+```
+
 ## Layout
 
 | Path | What it is |
@@ -43,6 +68,7 @@ bash ii-settings-rework/install.sh --uninstall   # put the original files back
 | `installer/install.sh` | The installer shipped in the zip |
 | `restore.sh` | Re-applies `patched/` locally after a dots update |
 | `build_site.py` | Builds the zip, `NOTICE` and the figures the website shows |
+| `sddm-theme/` | ii Login: the theme, its sync script, installer and screenshots |
 | `web/` | The Sidegrade website (React + Vite), deployed to GitHub Pages |
 | `site/` | A single-file version of the product page |
 
@@ -58,4 +84,4 @@ cd web && npm install && npm run dev
 
 ## Licence
 
-GPL-3.0, the same as dots-hyprland. The files in `patched/` are modified versions of dots-hyprland files; `NOTICE` says which version they were modified from and when. `LICENSE` and `NOTICE` are included in the zip.
+GPL-3.0, the same as dots-hyprland. The files in `patched/` are modified versions of dots-hyprland files; `NOTICE` says which version they were modified from and when. `LICENSE` and `NOTICE` are included in the zip. The ii Login theme is a port of the lockscreen to SDDM and carries its own notice in `sddm-theme/NOTICE`.

@@ -1,0 +1,45 @@
+{
+  "zipBytes": 27422,
+  "rawBytes": 43207,
+  "fileCount": 10,
+  "commit": "cb1c428b",
+  "commitDate": "8 Nov 2026",
+  "groups": [
+    {
+      "files": "theme/Main.qml",
+      "what": "The login screen: wallpaper, toolbars, menus, login",
+      "count": 1,
+      "bytes": 20564
+    },
+    {
+      "files": "theme/CookieClock.qml",
+      "what": "The analog clock with date bubbles",
+      "count": 1,
+      "bytes": 6077
+    },
+    {
+      "files": "theme/Pill.qml, Icon.qml, IconButton.qml, ShapeDot.qml",
+      "what": "Toolbar, icon and password-character components",
+      "count": 4,
+      "bytes": 4613
+    },
+    {
+      "files": "theme/metadata.desktop, theme.conf",
+      "what": "Theme description and default colours",
+      "count": 2,
+      "bytes": 1038
+    },
+    {
+      "files": "sync.sh",
+      "what": "Copies your wallpaper and colours for the theme to read",
+      "count": 1,
+      "bytes": 4049
+    },
+    {
+      "files": "install.sh",
+      "what": "Installer and uninstaller",
+      "count": 1,
+      "bytes": 6866
+    }
+  ]
+}

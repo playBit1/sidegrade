@@ -1,0 +1,13 @@
+[SddmGreeterTheme]
+Name=ii Login
+Description=Login screen matching the illogical-impulse (end-4) Quickshell lockscreen
+Author=playBit1
+License=GPL-3.0
+Type=sddm-theme
+Version=0.1
+Website=https://github.com/playBit1/sidegrade
+MainScript=Main.qml
+ConfigFile=theme.conf
+Theme-Id=ii-login
+Theme-API=2.0
+QtVersion=6

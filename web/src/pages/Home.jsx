@@ -8,24 +8,25 @@ const promises = [
     title: "Reversible",
     text: (
       <>
-        Every installer backs up the files it replaces first, and <code>--uninstall</code> puts them back.
+        Every installer has an <code>--uninstall</code> that puts things back as they were, from a backup where it
+        replaced files.
       </>
     ),
   },
   {
     title: "Checked against your version",
-    text: "If your dotfiles differ from the version a mod was built on, the installer stops and says which files.",
+    text: "A mod that replaces dotfiles stops if yours differ from the version it was built on, and says which files.",
   },
   {
     title: "Nothing hidden",
-    text: "A mod is a zip of plain config files and a short shell script you can read before running. No root, no packages.",
+    text: "A mod is a zip of plain config files and a short shell script you can read before running. No packages, and its page says so if it needs root.",
   },
 ];
 
 const steps = [
   { title: "Download the zip", text: "Each mod is one small archive." },
-  { title: "Unzip and run install.sh", text: "It checks your dotfiles version, backs up, then copies the files in." },
-  { title: "Reopen the app it changes", text: "The rest of your desktop keeps running." },
+  { title: "Unzip and run install.sh", text: "It checks what it is about to change, backs up, then copies the files in." },
+  { title: "Reopen what it changes", text: "Usually one app. The rest of your desktop keeps running." },
 ];
 
 export default function Home() {
@@ -46,8 +47,8 @@ export default function Home() {
             installs with one script, and can be removed just as easily.
           </p>
           <div className="actions">
-            <Link to={`/mods/${products[0].slug}`} className="btn">
-              See the first mod
+            <Link to="/#mods" className="btn">
+              See the mods
             </Link>
             <Link to="/#how" className="btn quiet">
               How installing works

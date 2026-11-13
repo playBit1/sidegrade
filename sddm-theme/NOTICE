@@ -1,0 +1,18 @@
+ii Login - an SDDM theme matching the illogical-impulse lockscreen
+https://github.com/playBit1/sidegrade
+
+The clock and toolbars in this theme are a port of the lockscreen and clock widgets of
+end-4's dots-hyprland (illogical-impulse), https://github.com/end-4/dots-hyprland, which
+is licensed under the GNU General Public License, version 3. They were rewritten for SDDM
+from dots-hyprland as of commit cb1c428b (8 Nov 2026) by playBit1, November 2026.
+
+Original work: copyright (C) end-4 and the dots-hyprland contributors.
+This theme: copyright (C) 2026 playBit1.
+
+This program is free software: you can redistribute it and/or modify it under the
+terms of the GNU General Public License, version 3, as published by the Free
+Software Foundation. It is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE. See the LICENSE file for the full text.
+
+Not affiliated with or endorsed by the dots-hyprland or SDDM projects.
