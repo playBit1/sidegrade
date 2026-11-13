@@ -172,7 +172,7 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
 
   <section class="viewer" aria-label="Screenshots">
     <div class="views" role="tablist" aria-label="Screens">
-      <button role="tab" id="tab-bar" aria-selected="true" data-img="shots/bar.png" data-cap="The Bar page. Sections sit on faint cards, the rail lists the page's sections and marks the one in view, and units sit beside the number boxes.">Sections and cards</button>
+      <button role="tab" id="tab-bar" aria-selected="true" data-img="shots/bar.png" data-cap="The Bar page. Sections sit on faint cards, and units sit beside the number boxes.">Sections and cards</button>
       <button role="tab" id="tab-displays" aria-selected="false" data-img="shots/displays.png" data-cap="The Displays page. Drag the numbered tiles to arrange your monitors, then set each one's resolution, refresh rate, scale and rotation. Apply asks you to keep the result and undoes it otherwise.">Displays</button>
       <button role="tab" id="tab-search" aria-selected="false" data-img="shots/search.png" data-cap="Typing in the search field replaces the page list with matches from every page, each with its page and section. Ctrl+F focuses it.">Search</button>
       <button role="tab" id="tab-jump" aria-selected="false" data-img="shots/jump.png" data-cap="Picking a result opens the page, scrolls to the option and highlights it for a moment. Opacity options are sliders.">Jump to an option</button>
@@ -181,7 +181,7 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
     </div>
     <div class="shot">
       <img id="shot-img" src="shots/bar.png" width="1100" height="750" alt="The reworked settings app showing the Bar page">
-      <p id="shot-cap">The Bar page. Sections sit on faint cards, the rail lists the page's sections and marks the one in view, and units sit beside the number boxes.</p>
+      <p id="shot-cap">The Bar page. Sections sit on faint cards, and units sit beside the number boxes.</p>
     </div>
   </section>
 
@@ -190,7 +190,6 @@ footer { color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--li
     <div class="changes">
       <div><h3>All 284 options have a control</h3><p>Default apps, night light schedule, bar resources, tray filters, scrolling, pomodoro timings, AI models and the rest. Lists are edited as text, and the AI model list as JSON that only saves while valid.</p></div>
       <div><h3>Search across every page</h3><p>370 labels are indexed. Results show where each option lives and take you to the exact row.</p></div>
-      <div><h3>Sections in the navigation rail</h3><p>The selected tab lists its sections. Click one to scroll there; the marker follows as you scroll.</p></div>
       <div><h3>Tabs ordered by use</h3><p>Quick, Bar, Interface, Background, General, Services, Advanced, then Misc and About. Options that nothing in the shell reads are moved to Misc.</p></div>
       <div><h3>Calmer rows</h3><p>Sections are grouped on cards, per-row icons are gone, units moved out of the labels, and short text values no longer take a full-width box.</p></div>
       <div><h3>Displays page</h3><p>Drag your monitors into place and set resolution, refresh rate, scale and rotation, with the result written to Hyprland's monitors.lua. New settings are undone after 15 seconds unless you keep them, so a mode your screen cannot show never leaves you stuck.</p></div>

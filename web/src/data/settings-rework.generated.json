@@ -1,6 +1,6 @@
 {
-  "zipBytes": 67408,
-  "rawBytes": 271705,
+  "zipBytes": 67029,
+  "rawBytes": 266711,
   "fileCount": 24,
   "commit": "cb1c428b",
   "commitDate": "8 Nov 2026",
@@ -9,7 +9,7 @@
       "files": "settings.qml",
       "what": "The window: tabs, navigation rail, search",
       "count": 1,
-      "bytes": 33224
+      "bytes": 28230
     },
     {
       "files": "modules/settings/*Config.qml, About.qml",

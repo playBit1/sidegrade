@@ -57,7 +57,7 @@ export const products = [
         label: "Sections and cards",
         src: asset("shots/bar.png"),
         caption:
-          "The Bar page. Sections sit on faint cards, the rail lists the page's sections and marks the one in view, and units sit beside the number boxes.",
+          "The Bar page. Sections sit on faint cards, and units sit beside the number boxes.",
       },
       {
         id: "displays",
@@ -102,10 +102,6 @@ export const products = [
       {
         title: "Search across every page",
         text: "370 labels are indexed. Results show where each option lives and take you to the exact row.",
-      },
-      {
-        title: "Sections in the navigation rail",
-        text: "The selected tab lists its sections. Click one to scroll there; the marker follows as you scroll.",
       },
       {
         title: "Tabs ordered by use",

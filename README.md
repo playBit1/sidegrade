@@ -10,7 +10,6 @@ A rework of the Quickshell "ii" settings app.
 
 - **Every option has a control.** The stock app leaves 114 of its 284 options to be edited by hand in `config.json`.
 - **Search across every page.** Results show where each option lives and jump to the exact row (Ctrl+F).
-- **Sections in the navigation rail.** The selected tab lists its sections and marks the one in view.
 - **Tabs ordered by use,** with options nothing in the shell reads moved to a Misc tab.
 - **Calmer rows.** Sections sit on cards, units moved out of the labels, short values use compact rows.
 - **Displays page.** Drag monitors to arrange them and set resolution, refresh rate, scale and rotation; changes are undone after 15 seconds unless you keep them. It writes `~/.config/hypr/monitors.lua` (Lua Hyprland config).
