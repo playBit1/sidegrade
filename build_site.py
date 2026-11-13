@@ -80,7 +80,7 @@ raw = sum(p.stat().st_size for p in files)
 kb = lambda n: f"{n / 1024:.0f}"
 GROUPS = [
     ("settings.qml", "The window: tabs, navigation rail, search", lambda r: r == "settings.qml"),
-    ("modules/settings/*Config.qml, About.qml", "The ten pages",
+    ("modules/settings/*Config.qml, About.qml", "The eleven pages",
      lambda r: r.startswith("modules/settings/") and (r.endswith("Config.qml") or r.endswith("About.qml"))),
     ("modules/settings/Opt*.qml, SettingsSection.qml", "Row and section components",
      lambda r: r.startswith("modules/settings/Opt") or r.endswith("SettingsSection.qml")),
@@ -89,6 +89,8 @@ GROUPS = [
      lambda r: r.endswith("NotificationPopup.qml")),
     ("scripts/settings-rework/update-dots.sh", "Run by the Update dotfiles button",
      lambda r: r.endswith("update-dots.sh")),
+    ("scripts/settings-rework/displays.sh", "Writes the display settings, and undoes them if they are not kept",
+     lambda r: r.endswith("displays.sh")),
 ]
 rows, seen, groups = [], set(), []
 for label, what, match in GROUPS:

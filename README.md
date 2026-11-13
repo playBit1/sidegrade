@@ -13,6 +13,7 @@ A rework of the Quickshell "ii" settings app.
 - **Sections in the navigation rail.** The selected tab lists its sections and marks the one in view.
 - **Tabs ordered by use,** with options nothing in the shell reads moved to a Misc tab.
 - **Calmer rows.** Sections sit on cards, units moved out of the labels, short values use compact rows.
+- **Displays page.** Drag monitors to arrange them and set resolution, refresh rate, scale and rotation; changes are undone after 15 seconds unless you keep them. It writes `~/.config/hypr/monitors.lua` (Lua Hyprland config).
 - **Update check.** About shows how far behind your dotfiles are and can run end-4's updater, re-applying the mod afterwards.
 
 It also fixes one stock bug: the "force notifications to one monitor" switch wrote to a config key the shell did not define.

@@ -1,7 +1,7 @@
 {
-  "zipBytes": 58345,
-  "rawBytes": 237757,
-  "fileCount": 22,
+  "zipBytes": 67408,
+  "rawBytes": 271705,
+  "fileCount": 24,
   "commit": "cb1c428b",
   "commitDate": "8 Nov 2026",
   "groups": [
@@ -9,13 +9,13 @@
       "files": "settings.qml",
       "what": "The window: tabs, navigation rail, search",
       "count": 1,
-      "bytes": 33059
+      "bytes": 33224
     },
     {
       "files": "modules/settings/*Config.qml, About.qml",
-      "what": "The ten pages",
-      "count": 10,
-      "bytes": 132038
+      "what": "The eleven pages",
+      "count": 11,
+      "bytes": 161936
     },
     {
       "files": "modules/settings/Opt*.qml, SettingsSection.qml",
@@ -27,7 +27,7 @@
       "files": "modules/settings/SearchIndex.qml",
       "what": "Labels the search field looks through",
       "count": 1,
-      "bytes": 58877
+      "bytes": 60522
     },
     {
       "files": "modules/ii/notificationPopup/NotificationPopup.qml",
@@ -40,6 +40,12 @@
       "what": "Run by the Update dotfiles button",
       "count": 1,
       "bytes": 1388
+    },
+    {
+      "files": "scripts/settings-rework/displays.sh",
+      "what": "Writes the display settings, and undoes them if they are not kept",
+      "count": 1,
+      "bytes": 2240
     }
   ]
 }

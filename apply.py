@@ -581,6 +581,10 @@ for page, plan in PAGES.items():
     build(page, plan)
 emit("WaffleConfig.qml", WAFFLE)
 emit("MiscConfig.qml", MISC)
+# Displays is written by hand (patched/ is its source): only index it and copy it
+DISPLAYS = HERE / "patched" / "modules" / "settings" / "DisplaysConfig.qml"
+index_page("DisplaysConfig.qml", DISPLAYS.read_text())
+(DST / "DisplaysConfig.qml").write_text(DISPLAYS.read_text())
 
 import json  # noqa: E402
 (DST / "SearchIndex.qml").write_text(

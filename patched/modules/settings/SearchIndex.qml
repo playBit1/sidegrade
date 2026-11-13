@@ -1857,6 +1857,61 @@ QtObject {
             "page": "modules/settings/MiscConfig.qml",
             "section": "Unused options",
             "label": "Anime boards: default provider"
+        },
+        {
+            "page": "modules/settings/DisplaysConfig.qml",
+            "section": "Arrangement",
+            "label": "Arrangement"
+        },
+        {
+            "page": "modules/settings/DisplaysConfig.qml",
+            "section": "Arrangement",
+            "label": "Identify"
+        },
+        {
+            "page": "modules/settings/DisplaysConfig.qml",
+            "section": "Arrangement",
+            "label": "Reset"
+        },
+        {
+            "page": "modules/settings/DisplaysConfig.qml",
+            "section": "Arrangement",
+            "label": "Apply"
+        },
+        {
+            "page": "modules/settings/DisplaysConfig.qml",
+            "section": "Display",
+            "label": "Display"
+        },
+        {
+            "page": "modules/settings/DisplaysConfig.qml",
+            "section": "Display",
+            "label": "Use this display"
+        },
+        {
+            "page": "modules/settings/DisplaysConfig.qml",
+            "section": "Display",
+            "label": "Resolution"
+        },
+        {
+            "page": "modules/settings/DisplaysConfig.qml",
+            "section": "Display",
+            "label": "Refresh rate"
+        },
+        {
+            "page": "modules/settings/DisplaysConfig.qml",
+            "section": "Display",
+            "label": "Scale"
+        },
+        {
+            "page": "modules/settings/DisplaysConfig.qml",
+            "section": "Display",
+            "label": "Orientation"
+        },
+        {
+            "page": "modules/settings/DisplaysConfig.qml",
+            "section": "Display",
+            "label": "Variable refresh rate"
         }
     ]
 }

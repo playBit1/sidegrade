@@ -60,6 +60,13 @@ export const products = [
           "The Bar page. Sections sit on faint cards, the rail lists the page's sections and marks the one in view, and units sit beside the number boxes.",
       },
       {
+        id: "displays",
+        label: "Displays",
+        src: asset("shots/displays.png"),
+        caption:
+          "The Displays page. Drag the numbered tiles to arrange your monitors, then set each one's resolution, refresh rate, scale and rotation. Apply asks you to keep the result and undoes it otherwise.",
+      },
+      {
         id: "search",
         label: "Search",
         src: asset("shots/search.png"),
@@ -107,6 +114,10 @@ export const products = [
       {
         title: "Calmer rows",
         text: "Sections are grouped on cards, per-row icons are gone, units moved out of the labels, and short text values no longer take a full-width box.",
+      },
+      {
+        title: "Displays page",
+        text: "Drag your monitors into place and set resolution, refresh rate, scale and rotation, with the result written to Hyprland's monitors.lua. New settings are undone after 15 seconds unless you keep them, so a mode your screen cannot show never leaves you stuck.",
       },
       {
         title: "Update check and update button",
