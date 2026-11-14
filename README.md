@@ -15,6 +15,8 @@ A rework of the Quickshell "ii" settings app.
 - **Displays page.** Drag monitors to arrange them and set resolution, refresh rate, scale and rotation; changes are undone after 15 seconds unless you keep them. It writes `~/.config/hypr/monitors.lua` (Lua Hyprland config).
 - **Update check.** About shows how far behind your dotfiles are and can run end-4's updater, re-applying the mod afterwards.
 
+The mod only replaces the settings app (plus the one-line notification fix below); it does not touch the rest of the shell.
+
 It also fixes one stock bug: the "force notifications to one monitor" switch wrote to a config key the shell did not define.
 
 ### Install
@@ -31,6 +33,20 @@ The installer backs up every file it replaces to `~/.local/share/ii-settings-rew
 ```sh
 bash ii-settings-rework/install.sh --uninstall   # put the original files back
 ```
+
+### Add-on: per-display backgrounds
+
+Optional, installed on top of the mod. Each monitor can have its own wallpaper and its own clock, weather and parallax settings: the Background page gains a row per display, and a choice of which display the widget settings below it apply to. Colors still follow the main wallpaper. Choices are kept in `~/.config/illogical-impulse/monitor-backgrounds.json`.
+
+It is separate because it goes further than the mod: it replaces 13 files of the shell's desktop background (`modules/ii/background/`, the clock and weather widgets) with patched copies, so a dots-hyprland update that changes those files means the add-on has to be rebuilt before it installs again.
+
+```sh
+unzip ii-settings-rework-per-display.zip
+bash ii-settings-rework-per-display/install.sh               # needs ii Settings Rework installed
+bash ii-settings-rework-per-display/install.sh --uninstall   # removes the add-on only
+```
+
+Reinstalling or updating the mod takes installed add-ons off and puts them back; uninstalling the mod removes them too.
 
 ## ii Login
 
@@ -65,7 +81,8 @@ sudo rm /etc/sddm.conf.d/10-ii-login.conf && sudo systemctl restart sddm
 | `backup-original/` | The stock files the mod was built against |
 | `apply.py` | Regenerates the settings pages and search index from the stock files |
 | `snippets/` | QML blocks `apply.py` inserts |
-| `installer/install.sh` | The installer shipped in the zip |
+| `installer/install.sh` | The installer shipped in every zip (the mod's and each add-on's) |
+| `addons/per-display/` | The per-display backgrounds add-on: `patched/` and `backup-original/` like the mod's, `snippets/` for its Background page, `patch_background.py` to regenerate the shell files |
 | `restore.sh` | Re-applies `patched/` locally after a dots update |
 | `build_site.py` | Builds the zip, `NOTICE` and the figures the website shows |
 | `sddm-theme/` | ii Login: the theme, its sync script, installer and screenshots |
@@ -75,12 +92,13 @@ sudo rm /etc/sddm.conf.d/10-ii-login.conf && sudo systemctl restart sddm
 ## Working on it
 
 ```sh
-python3 apply.py        # regenerate the pages into ~/.config/quickshell/ii
+python3 apply.py        # regenerate the pages into patched/ and ~/.config/quickshell/ii (and the add-on's page)
+python3 addons/per-display/patch_background.py   # regenerate the add-on's shell files from the stock ones
 python3 build_site.py   # rebuild the zip and website data from patched/
 cd web && npm install && npm run dev
 ```
 
-`settings.qml`, the `Opt*.qml` components and `SettingsSection.qml` are edited by hand; copy them into `patched/` after changing them.
+`settings.qml`, the `Opt*.qml` components and `SettingsSection.qml` are edited by hand in `patched/`; `restore.sh` copies them into your config (`restore.sh --addons` also applies the add-ons).
 
 ## Licence
 

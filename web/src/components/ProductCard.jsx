@@ -9,7 +9,10 @@ export default function ProductCard({ product }) {
         <img src={product.cover} width="1100" height="750" alt="" loading="lazy" />
       </Link>
       <div className="card-body">
-        <span className="label">For the {product.target}</span>
+        <span className="label">
+          For the {product.target}
+          {product.addons && ` · ${product.addons.length} optional add-on${product.addons.length > 1 ? "s" : ""}`}
+        </span>
         <h3>
           <Link to={to}>{product.name}</Link>
         </h3>

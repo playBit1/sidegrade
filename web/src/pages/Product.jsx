@@ -115,6 +115,59 @@ export default function Product() {
         </div>
       </section>
 
+      {product.addons && (
+        <section className="section" id="addons">
+          <div className="section-head">
+            <h2>Optional add-ons</h2>
+            <span className="label">Installed on top of {product.name}</span>
+          </div>
+          {product.addons.map((addon) => (
+            <div className="addon" key={addon.name}>
+              <article className="card">
+                <div className="card-shot">
+                  <img src={addon.shot} width="1100" height="750" alt={`${addon.name}: the Background page`} loading="lazy" />
+                </div>
+                <div className="card-body">
+                  <span className="label">Add-on · {addon.name}</span>
+                  <h3>{addon.tagline}</h3>
+                  <p>{addon.text}</p>
+                  <dl className="facts">
+                    <div>
+                      <dt>Download</dt>
+                      <dd>{kb(addon.zipBytes)} KB</dd>
+                    </div>
+                    <div>
+                      <dt>Files</dt>
+                      <dd>{addon.fileCount}</dd>
+                    </div>
+                    <div>
+                      <dt>Shell files patched</dt>
+                      <dd>{addon.shellFiles}</dd>
+                    </div>
+                  </dl>
+                  <div className="actions">
+                    <a className="btn" href={addon.download} download={addon.downloadName}>
+                      Download add-on
+                    </a>
+                  </div>
+                </div>
+              </article>
+              <div className="addon-more">
+                <div>
+                  <h3>{addon.whyTitle}</h3>
+                  <p>{addon.why}</p>
+                </div>
+                <div>
+                  <h3>{addon.installTitle}</h3>
+                  <CopyCommand>{addon.command}</CopyCommand>
+                  <p>{rich(addon.after)}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </section>
+      )}
+
       <section className="section">
         <h2>What is in the download</h2>
         <div className="table">

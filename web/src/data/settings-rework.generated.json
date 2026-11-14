@@ -1,6 +1,6 @@
 {
-  "zipBytes": 67029,
-  "rawBytes": 266711,
+  "zipBytes": 68508,
+  "rawBytes": 267771,
   "fileCount": 24,
   "commit": "cb1c428b",
   "commitDate": "8 Nov 2026",
@@ -21,7 +21,7 @@
       "files": "modules/settings/Opt*.qml, SettingsSection.qml",
       "what": "Row and section components",
       "count": 8,
-      "bytes": 11065
+      "bytes": 12125
     },
     {
       "files": "modules/settings/SearchIndex.qml",

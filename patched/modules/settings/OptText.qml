@@ -11,13 +11,16 @@ GridLayout {
     property string placeholderText: ""
     property bool wide: false
     property bool ready: false
+    property var store: Config.options // What the key is looked up in
+    property var writer: null // function(key, value): replaces writing into store (used by add-on pages)
     function read() {
-        return key.split(".").reduce((o, k) => o?.[k], Config.options);
+        return key.split(".").reduce((o, k) => o?.[k], store);
     }
     function write(v) {
+        if (writer) return writer(key, v);
         const ks = key.split(".");
         const last = ks.pop();
-        const o = ks.reduce((o, k) => o[k], Config.options);
+        const o = ks.reduce((o, k) => o[k], store);
         if (typeof v === "number" && typeof o[last] === "number" && Math.abs(o[last] - v) < 1e-9) return;
         if (o[last] !== v) o[last] = v;
     }
@@ -46,8 +49,16 @@ GridLayout {
             if (root.ready) root.write(text);
         }
     }
+    // Follows the option when it changes somewhere else
+    readonly property string current: read() ?? ""
+    onCurrentChanged: {
+        if (field.text === current) return;
+        ready = false;
+        field.text = current;
+        ready = true;
+    }
     Component.onCompleted: {
-        field.text = read() ?? "";
+        field.text = current;
         ready = true;
     }
 }

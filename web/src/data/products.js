@@ -2,6 +2,7 @@
 // so they always describe the zip that is actually in public/downloads.
 import settingsRework from "./settings-rework.generated.json";
 import login from "./login.generated.json";
+import perDisplay from "./per-display.generated.json";
 
 const asset = (path) => `${import.meta.env.BASE_URL}${path}`;
 
@@ -67,6 +68,13 @@ export const products = [
           "The Displays page. Drag the numbered tiles to arrange your monitors, then set each one's resolution, refresh rate, scale and rotation. Apply asks you to keep the result and undoes it otherwise.",
       },
       {
+        id: "per-display",
+        label: "Per-display backgrounds (add-on)",
+        src: asset("shots/per-display.png"),
+        caption:
+          "With the optional add-on, the Background page lists each display's wallpaper, and the clock, weather and parallax sections below edit whichever display is picked.",
+      },
+      {
         id: "search",
         label: "Search",
         src: asset("shots/search.png"),
@@ -118,6 +126,23 @@ export const products = [
       {
         title: "Update check and update button",
         text: "About reports how many commits your dotfiles are behind and how many system packages are pending. From there, one button opens a terminal running end-4's updater and re-applies this mod afterwards.",
+      },
+    ],
+    addons: [
+      {
+        name: "Per-display backgrounds",
+        tagline: "A different wallpaper, clock and weather on each monitor.",
+        download: asset("downloads/ii-settings-rework-per-display.zip"),
+        downloadName: "ii-settings-rework-per-display.zip",
+        shot: asset("shots/per-display.png"),
+        ...perDisplay,
+        text: "The Background page gains a row per display to pick its wallpaper, and a choice of which display the clock, weather and parallax settings below apply to. A display without its own keeps following the shared ones, and colors still come from the main wallpaper.",
+        whyTitle: "Why it is separate",
+        why: `The mod itself only replaces the settings app. This add-on goes further: it swaps ${perDisplay.shellFiles} files of the shell's desktop background (the clock and weather widgets) for patched copies. The installer backs them up and stops if yours differ, so after a dotfiles update that touches those files the add-on stays off until it is rebuilt. The mod keeps working either way.`,
+        installTitle: "Install it on top of the mod",
+        command:
+          "cd ~/Downloads\nunzip ii-settings-rework-per-display.zip\nbash ii-settings-rework-per-display/install.sh",
+        after: "`install.sh --uninstall` removes the add-on and leaves the mod in place. Updating or reinstalling the mod takes the add-on off and puts it back. Your choices are kept in `~/.config/illogical-impulse/monitor-backgrounds.json`.",
       },
     ],
     footnote:
